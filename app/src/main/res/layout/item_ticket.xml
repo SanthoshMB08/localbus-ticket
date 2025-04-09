@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.cardview.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_margin="8dp"
+    >
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        android:background="@drawable/shadow_bg"
+        android:elevation="10dp"
+        android:translationZ="5dp">
+
+        <TextView
+            android:id="@+id/tvBusNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Bus Number"
+            android:textSize="16sp"
+            android:textStyle="bold" />
+
+        <TextView
+            android:id="@+id/tvVehicleNumber"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Vehicle Number"
+            android:textSize="14sp"
+            android:textColor="#757575" />
+
+        <TextView
+            android:id="@+id/tvStartStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="From: Stop A"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvEndStop"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="To: Stop B"
+            android:textSize="14sp" />
+
+        <TextView
+            android:id="@+id/tvFare"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Fare: ₹0"
+            android:textSize="14sp"
+            android:textColor="#ff5722" />
+
+        <TextView
+            android:id="@+id/tvDateTime"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Date &amp; Time"
+            android:textSize="12sp"
+            android:textColor="#757575" />
+
+    </LinearLayout>
+
+</androidx.cardview.widget.CardView>
