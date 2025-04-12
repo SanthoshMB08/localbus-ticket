@@ -1,7 +1,7 @@
 <resources>
     <string name="app_name">BMTC</string>
     <string name="no_ticket_available">No Ticket, Available</string>
-    <string name="ticket_details_format">🚌 Bus: %1$s\n🚍 Vehicle No: %2$s\n📍 From: %3$s\n📍 To: %4$s\n💰 Fare: ₹%5$s\n📅 Date: %6$s</string>
+    <string name="ticket_details_format">🚌 Bus: %1$s\n🚍 Vehicle No: %2$s\n📍 From: %3$s\n📍 To: %4$s\n💰 Fare: ₹%5$d\n📅 Date: %6$s</string>
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="total_fare">Total Fare: ₹%d</string>

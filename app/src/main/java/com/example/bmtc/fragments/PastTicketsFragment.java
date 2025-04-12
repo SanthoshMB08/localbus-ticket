@@ -8,6 +8,8 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,7 +22,7 @@ import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
 
-class PastTicketsFragment extends Fragment {
+public class PastTicketsFragment extends Fragment {
 
     private RecyclerView recyclerView;
     private TicketAdapter adapter;
@@ -51,8 +53,15 @@ class PastTicketsFragment extends Fragment {
 
     // Function to load tickets from SharedPreferences
     private List<Ticket> loadTickets() {
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("TicketPrefs", Context.MODE_PRIVATE);
+        Context context = getContext();
+        if (context == null) {
+            Log.e("PastTickets", "⚠️ Context is null while loading tickets");
+            return new ArrayList<>();
+        }
+
+        SharedPreferences sharedPreferences = context.getSharedPreferences("TicketPrefs", Context.MODE_PRIVATE);
         String json = sharedPreferences.getString("past_tickets", null);
+
         if (json != null) {
             Gson gson = new Gson();
             Type type = new TypeToken<ArrayList<Ticket>>() {}.getType();
@@ -60,4 +69,5 @@ class PastTicketsFragment extends Fragment {
         }
         return new ArrayList<>();
     }
+
 }

@@ -109,7 +109,7 @@ public class BusDetailsFragment extends Fragment {
     }
 
         private void fetchBusStops(String busId) {
-        String url = "http://192.168.129.231:5000/get_bus_stops?bus_id=" + busId;// Replace with your Flask server IP
+        String url = "http://192.168.146.231:5000/get_bus_stops?bus_id=" + busId;// Replace with your Flask server IP
 
         RequestQueue queue = Volley.newRequestQueue(requireContext());
         @SuppressLint("SetTextI18n") JsonObjectRequest request = new JsonObjectRequest(Request.Method.GET, url, null,

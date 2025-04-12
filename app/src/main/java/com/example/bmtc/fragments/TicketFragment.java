@@ -15,6 +15,16 @@ import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
 import com.example.bmtc.R;
+import com.example.bmtc.models.Ticket;
+import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
+
+import java.lang.reflect.Type;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Locale;
 
 public class TicketFragment extends Fragment {
 
@@ -35,6 +45,7 @@ public class TicketFragment extends Fragment {
 
         // Load and display last saved ticket
         loadTicket();
+        saveTicketToPrefsFromTicketData();
         // Clear ticket when the button is clicked
         clearTicketButton.setOnClickListener(v -> clearTicket());
 
@@ -59,6 +70,37 @@ public class TicketFragment extends Fragment {
             String ticketDetails = getString(R.string.ticket_details_format, busNumber, vehicleNumber, startStop, endStop, fare, timestamp);
             ticketDetailsText.setText(ticketDetails);
         }
+    }
+    private void saveTicketToPrefsFromTicketData() {
+        SharedPreferences ticketDataPrefs = requireContext().getSharedPreferences("TicketData", Context.MODE_PRIVATE);
+        SharedPreferences ticketPrefs = requireContext().getSharedPreferences("TicketPrefs", Context.MODE_PRIVATE);
+
+        // Read ticket details from TicketData
+        String busNumber = ticketDataPrefs.getString("busNumber", null);
+        String vehicleNumber = ticketDataPrefs.getString("vehicleNumber", null);
+        String startStop = ticketDataPrefs.getString("startStop", null);
+        String endStop = ticketDataPrefs.getString("endStop", null);
+        int fare = ticketDataPrefs.getInt("fare", 0);
+        String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+
+        // Create Ticket object (make sure you have a Ticket class with appropriate constructor)
+        Ticket ticket = new Ticket(busNumber, vehicleNumber, startStop, endStop, fare, dateTime);
+
+        // Load existing tickets from TicketPrefs
+        Gson gson = new Gson();
+        String json = ticketPrefs.getString("past_tickets", null);
+        Type type = new TypeToken<ArrayList<Ticket>>() {}.getType();
+        List<Ticket> ticketList = json != null ? gson.fromJson(json, type) : new ArrayList<>();
+
+        // Add new ticket
+        ticketList.add(ticket);
+
+        // Save updated list back to TicketPrefs
+        SharedPreferences.Editor editor = ticketPrefs.edit();
+        editor.putString("past_tickets", gson.toJson(ticketList));
+        editor.apply();
+
+        Log.d("TicketSave", "✅ Ticket added to past_tickets");
     }
 
     // Clear the saved ticket

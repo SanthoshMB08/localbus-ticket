@@ -1,5 +1,7 @@
 package com.example.bmtc.fragments;
 
+import android.content.Context;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -99,10 +101,24 @@ public class BusSelectionFragment extends Fragment {
     }
 
     private void goToPayment(Bus selectedBus) {
+        String origin = originInput.getText().toString().trim();
+        String destination = destinationInput.getText().toString().trim();
+        int fare = selectedBus.getFare(); // assuming it's already an int
+
+        // Save start, end, and fare in SharedPreferences
+        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("TicketData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("startStop", origin);
+        editor.putString("endStop", destination);
+        editor.putInt("fare", fare);
+        editor.apply();
+
+        // Now navigate to payment fragment with same 3
         PaymentFragment paymentFragment = new PaymentFragment();
         Bundle bundle = new Bundle();
-        bundle.putString("bus_id", selectedBus.getBusId());
-        bundle.putString("fare", String.valueOf(selectedBus.getFare()));
+        bundle.putString("startStop", origin);
+        bundle.putString("endStop", destination);
+        bundle.putInt("fare", fare);
         paymentFragment.setArguments(bundle);
 
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
@@ -110,5 +126,6 @@ public class BusSelectionFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+
 }
 
