@@ -105,17 +105,10 @@ public class BusSelectionFragment extends Fragment {
         String destination = destinationInput.getText().toString().trim();
         int fare = selectedBus.getFare(); // assuming it's already an int
 
-        // Save start, end, and fare in SharedPreferences
-        SharedPreferences sharedPreferences = requireContext().getSharedPreferences("TicketData", Context.MODE_PRIVATE);
-        SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("startStop", origin);
-        editor.putString("endStop", destination);
-        editor.putInt("fare", fare);
-        editor.apply();
-
         // Now navigate to payment fragment with same 3
         PaymentFragment paymentFragment = new PaymentFragment();
         Bundle bundle = new Bundle();
+        bundle.putString("type","pre_book");
         bundle.putString("startStop", origin);
         bundle.putString("endStop", destination);
         bundle.putInt("fare", fare);

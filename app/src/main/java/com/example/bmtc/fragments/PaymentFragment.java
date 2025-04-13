@@ -28,7 +28,7 @@ import java.util.Locale;
 
 public class PaymentFragment extends Fragment implements PaymentResultListener {
 
-    private String amount, busNumber, vehicleNumber, startStop, endStop;
+    private String amount, busNumber, vehicleNumber, startStop, endStop,type;
     private Button razorpayButton;
 
     public PaymentFragment() {
@@ -44,6 +44,10 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
 
         // Retrieve details from arguments
         if (getArguments() != null) {
+            type= getArguments().getString("type", "N/A");
+            switch (type){
+                case"in_bus":{
+
             busNumber = getArguments().getString("bus_id", "N/A");
             vehicleNumber = getArguments().getString("vehicle_number", "N/A");
             startStop = getArguments().getString("start_stop", "N/A");
@@ -54,6 +58,19 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
             amount = String.valueOf(fare * 100); // Razorpay uses paise, so multiply by 100
 
             fareAmountText.setText("Total Fare: ₹" + fare);
+            break;
+            }
+            case"pre_book":{
+                busNumber = "-None-";
+                vehicleNumber = "-None-";
+                startStop = getArguments().getString("startStop", "N/A");
+                endStop = getArguments().getString("endStop", "N/A");
+                int fare = getArguments().getInt("fare", 0);
+                amount = String.valueOf(fare * 100); // Razorpay uses paise, so multiply by 100
+                fareAmountText.setText("Total Fare: ₹" + fare);
+                break;
+            }
+            }
         }
 
         // Razorpay Payment Button Click
@@ -138,6 +155,8 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
 
         SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TicketData", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        switch (type){
+            case "in_bus":{
 
         editor.putString("busNumber", busNumber);
         editor.putString("vehicleNumber", vehicleNumber);
@@ -148,7 +167,18 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
         editor.apply();
 
         Log.d("PaymentFragment", "✅ Ticket Data Saved: Bus " + busNumber + ", Fare: ₹" + (Integer.parseInt(amount) / 100));
-    }
+
+            break;}
+        case "pre_book":{
+            editor.putString("busNumber", "-None-");
+            editor.putString("vehicleNumber", "-None-");
+            editor.putString("startStop", startStop);
+            editor.putString("endStop", endStop);
+            editor.putInt("fare", Integer.parseInt(amount) / 100); // Convert paise to ₹
+
+            editor.apply();
+            break;
+        }}}
     // ✅ Navigate to Ticket Fragment After Payment
     private void navigateToTicketFragment() {
         Log.d("Razorpay", "Inside navigateToTicketFragment()");

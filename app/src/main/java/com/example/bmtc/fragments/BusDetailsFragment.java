@@ -91,6 +91,7 @@ public class BusDetailsFragment extends Fragment {
             int fare = calculateFare(busStops.indexOf(startStop), busStops.indexOf(endStop), ticketCount);
 // Create a new instance of PaymentFragment
             Bundle bundle = new Bundle();
+            bundle.putString("type","in_bus");
             bundle.putString("bus_id", busId);
             bundle.putString("vehicle_number", vehicleNumber);
             bundle.putString("start_stop", startStop);
