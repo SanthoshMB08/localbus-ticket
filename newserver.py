@@ -40,7 +40,6 @@ def get_buses():
         FROM buses b
         WHERE instr(b.stops, ?) > 0 
           AND instr(b.stops, ?) > 0 
-          AND instr(b.stops, ?) < instr(b.stops, ?);
         """
         
         cursor.execute(query, (origin, destination, origin, destination, origin, destination))
@@ -66,6 +65,35 @@ def get_buses():
         })
 
     return jsonify(result)
+@app.get("/all_stops")
+async def get_all_stops():
+    with connect_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT stops FROM buses")
+        rows = cursor.fetchall()
+
+    all_stops = set()
+    for (stop_string,) in rows:
+        stop_list = [s.strip() for s in stop_string.split(",")]
+        all_stops.update(stop_list)
+
+    return {"stops": sorted(all_stops)}
+@app.get("/reachable_stops/{origin}")
+async def get_reachable_stops(origin: str):
+    with connect_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT stops FROM buses")
+        rows = cursor.fetchall()
+
+    reachable_stops = set()
+
+    for (stop_string,) in rows:
+        stops = [s.strip() for s in stop_string.split(",")]
+        if origin in stops:
+            stops.remove(origin)
+            reachable_stops.update(stops)
+
+    return {"reachable": sorted(reachable_stops)}
 
 # ✅ Fetch Stops for a Specific Bus
 @app.route("/get_bus_stops", methods=["GET"], strict_slashes=False)
