@@ -59,7 +59,13 @@
             android:text="Date &amp; Time"
             android:textSize="12sp"
             android:textColor="#757575" />
-
+        <TextView
+            android:id="@+id/textViewTicketSummary"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ticket summary"
+            android:textSize="16sp"
+            android:textColor="#000000" />
     </LinearLayout>
 
 </androidx.cardview.widget.CardView>

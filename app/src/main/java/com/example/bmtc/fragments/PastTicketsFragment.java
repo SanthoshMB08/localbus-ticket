@@ -1,5 +1,6 @@
 package com.example.bmtc.fragments;
 
+import android.app.AlertDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -47,7 +48,8 @@ public class PastTicketsFragment extends Fragment {
 
         // Load tickets from SharedPreferences
         ticketList = loadTickets();
-        adapter = new TicketAdapter(ticketList);
+        adapter = new TicketAdapter(ticketList, ticket -> showTicketDialog(ticket));
+
         recyclerView.setAdapter(adapter);
     }
 
@@ -69,5 +71,23 @@ public class PastTicketsFragment extends Fragment {
         }
         return new ArrayList<>();
     }
+    private void showTicketDialog(Ticket ticket) {
+        StringBuilder message = new StringBuilder();
 
+        message.append("Start Stop: ").append(ticket.getStartStop()).append("\n");
+        message.append("End Stop: ").append(ticket.getEndStop()).append("\n");
+        message.append("Fare: ₹").append(ticket.getFare()).append("\n");
+        message.append("Date: ").append(ticket.getDate()).append("\n");
+
+        if (ticket.getBusNumber() != null) {
+            message.append("Bus Number: ").append(ticket.getBusNumber()).append("\n");
+            message.append("Vehicle Number: ").append(ticket.getVehicleNumber()).append("\n");
+        }
+
+        new AlertDialog.Builder(requireContext())
+                .setTitle("Ticket Details")
+                .setMessage(message.toString())
+                .setPositiveButton("OK", null)
+                .show();
+    }
 }
