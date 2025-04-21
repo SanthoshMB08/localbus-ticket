@@ -13,15 +13,7 @@ def connect_db():
 def home():
     return "Server is Running!"
 
-# ✅ Fetch All Bus Stops
-@app.route("/get_all_stops", methods=["GET"], strict_slashes=False)
-def get_all_stops():
-    with connect_db() as conn:
-        cursor = conn.cursor()
-        cursor.execute("SELECT DISTINCT stop_name FROM stops")
-        stops = [row[0] for row in cursor.fetchall()]
-    
-    return jsonify({"stops": stops})
+
 @app.route("/get_buses", methods=["GET"], strict_slashes=False)
 def get_buses():
     origin = request.args.get("origin")
@@ -42,7 +34,7 @@ def get_buses():
           AND instr(b.stops, ?) > 0 
         """
         
-        cursor.execute(query, (origin, destination, origin, destination, origin, destination))
+        cursor.execute(query, (origin, destination, origin, destination))
         buses = cursor.fetchall()
 
 
@@ -65,7 +57,7 @@ def get_buses():
         })
 
     return jsonify(result)
-@app.get("/all_stops")
+@app.get("/get_all_stops")
 async def get_all_stops():
     with connect_db() as conn:
         cursor = conn.cursor()
@@ -78,8 +70,9 @@ async def get_all_stops():
         all_stops.update(stop_list)
 
     return {"stops": sorted(all_stops)}
-@app.get("/reachable_stops/{origin}")
-async def get_reachable_stops(origin: str):
+@app.route("/get_reachable_stops", methods=["GET"], strict_slashes=False)
+async def get_reachable_stops():
+    origin = request.args.get("origin")
     with connect_db() as conn:
         cursor = conn.cursor()
         cursor.execute("SELECT stops FROM buses")
