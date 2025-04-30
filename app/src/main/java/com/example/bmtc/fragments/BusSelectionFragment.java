@@ -166,15 +166,19 @@ public class BusSelectionFragment extends Fragment {
     private void goToPayment(Bus selectedBus) {
         String origin = originInput.getText().toString().trim();
         String destination = destinationInput.getText().toString().trim();
-        int fare = selectedBus.getFare(); // assuming it's already an int
+        int fare = selectedBus.getFare();
+        String busNumber =selectedBus.getBusId();
+        // assuming it's already an int
 
         // Now navigate to payment fragment with same 3
         PaymentFragment paymentFragment = new PaymentFragment();
         Bundle bundle = new Bundle();
         bundle.putString("type","pre_book");
+        bundle.putString("bus_id",busNumber);
         bundle.putString("startStop", origin);
         bundle.putString("endStop", destination);
         bundle.putInt("fare", fare);
+        bundle.putString("status","unverified");
         paymentFragment.setArguments(bundle);
 
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();

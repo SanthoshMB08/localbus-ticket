@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.bmtc.R;
+import com.example.bmtc.models.CustomScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
@@ -78,10 +79,12 @@ public class InBusDialogFragment extends DialogFragment {
     private void startQRScanner() {
         IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-        integrator.setPrompt("Scan a Bus QR Code");
+        integrator.setPrompt("Scan the QR Code on the bus");
         integrator.setCameraId(0);
         integrator.setBeepEnabled(true);
-        integrator.setBarcodeImageEnabled(false);
+        integrator.setBarcodeImageEnabled(true);
+        integrator.setOrientationLocked(false); // Allow auto-rotate
+        integrator.setCaptureActivity(CustomScannerActivity.class); // Use custom UI
         integrator.initiateScan();
     }
 

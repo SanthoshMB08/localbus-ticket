@@ -61,7 +61,7 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
             break;
             }
             case"pre_book":{
-                busNumber = "-None-";
+                busNumber = getArguments().getString("bus_id", "N/A");
                 vehicleNumber = "-None-";
                 startStop = getArguments().getString("startStop", "N/A");
                 endStop = getArguments().getString("endStop", "N/A");
@@ -157,25 +157,30 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
         SharedPreferences.Editor editor = sharedPreferences.edit();
         switch (type){
             case "in_bus":{
-
+                editor.putString("type",type);
         editor.putString("busNumber", busNumber);
         editor.putString("vehicleNumber", vehicleNumber);
         editor.putString("startStop", startStop);
         editor.putString("endStop", endStop);
+        editor.putString("Status","verfied");
+                String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+                editor.putString("Time",dateTime);
         editor.putInt("fare", Integer.parseInt(amount) / 100); // Convert paise to ₹
-
         editor.apply();
 
         Log.d("PaymentFragment", "✅ Ticket Data Saved: Bus " + busNumber + ", Fare: ₹" + (Integer.parseInt(amount) / 100));
 
             break;}
         case "pre_book":{
-            editor.putString("busNumber", "-None-");
+            editor.putString("type",type);
+            editor.putString("busNumber", busNumber);
             editor.putString("vehicleNumber", "-None-");
             editor.putString("startStop", startStop);
             editor.putString("endStop", endStop);
+            editor.putString("Status","unverfied");
             editor.putInt("fare", Integer.parseInt(amount) / 100); // Convert paise to ₹
-
+            String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+            editor.putString("Time",dateTime);
             editor.apply();
             break;
         }}}

@@ -12,7 +12,7 @@ import java.util.List;
 
 public class BusListAdapter extends RecyclerView.Adapter<BusListAdapter.BusViewHolder> {
 
-    private List<Bus> busList;
+    private List<Bus> busList ;
     private OnItemClickListener listener;
 
     public interface OnItemClickListener {
@@ -33,9 +33,9 @@ public class BusListAdapter extends RecyclerView.Adapter<BusListAdapter.BusViewH
 
     @Override
     public void onBindViewHolder(@NonNull BusViewHolder holder, int position) {
-        Bus bus = busList.get(position);
-        holder.busNumber.setText("Bus: " + bus.getBusId());
-        holder.vehicleNumber.setText("Vehicle: " + bus.getVehicleNumber());
+        Bus bus=busList.get(position);
+        holder  .busNumber.setText("Bus_id: " + bus.getBusId());
+        holder.vehicleNumber.setText("Vehicle_Number: " + bus.getVehicleNumber());
         holder.route.setText("Route: " + bus.getRoute());
         holder.fare.setText("Fare: ₹" + bus.getFare()); // Display fare
 

@@ -46,7 +46,9 @@
             android:name="com.razorpay.CheckoutActivity"
             android:theme="@style/Theme.AppCompat.Light.NoActionBar"
             tools:replace="android:theme" />
-
+        <activity android:name=".models.CustomScannerActivity"
+            android:screenOrientation="sensorPortrait"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
 
     </application>
 

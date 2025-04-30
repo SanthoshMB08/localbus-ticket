@@ -3,30 +3,28 @@ package com.example.bmtc.models;
 import java.util.List;
 
 public class Bus {
-    private String busId;
-    private String vehicleNumber;
+    private String bus_id;
+    private String vehicle_number;
     private String route;
     private int fare;
     private List<String> stops;
 
-    public Bus(String busId, String vehicleNumber, String route, int fare, List<String> stops) {
-        this.busId = busId;
-        this.vehicleNumber = vehicleNumber;
+    public Bus(String bus_id, String vehicle_number, String route, int fare) {
+        this.bus_id = bus_id;
+        this.vehicle_number = vehicle_number;
         this.route = route;
         this.fare = fare;
-        this.stops = stops;
+
     }
 
     public String getBusId() {
-        return busId;
+        return bus_id;
     }
 
     public String getVehicleNumber() {
-        return vehicleNumber;
+        return vehicle_number;
     }
-    public List<String> getStops() {
-        return stops;
-    }
+
 
     public String getRoute() {
         return route;

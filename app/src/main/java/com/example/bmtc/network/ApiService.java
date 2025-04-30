@@ -26,5 +26,6 @@ public interface ApiService {
     @GET("/get_reachable_stops")
     Call<StopResponse> getReachableStops(@Query("origin") String origin);
 
+
 }
 

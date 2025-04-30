@@ -1,6 +1,7 @@
 package com.example.bmtc.fragments;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,13 +16,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.bmtc.R;
+import com.example.bmtc.models.CustomScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
 
 public class MainFragment extends Fragment {
 
     private ImageButton scanQRButton, inBusButton, preBookButton ,ticketButton;
-    private Button getFareButton;
+    private Button  lastticket ;
     private LinearLayout searchButton;
 
     public MainFragment() {
@@ -41,7 +43,7 @@ public class MainFragment extends Fragment {
         scanQRButton = view.findViewById(R.id.scanQRButton);
         inBusButton = view.findViewById(R.id.in_bus_button);
         preBookButton = view.findViewById(R.id.preBookButton);
-        getFareButton = view.findViewById(R.id.getFareButton);
+        lastticket = view.findViewById(R.id.LastTicket);
         searchButton = view.findViewById(R.id.searchButton);
         ticketButton = view.findViewById(R.id.ticket_button);
 
@@ -57,9 +59,9 @@ public class MainFragment extends Fragment {
         // Navigate to Bus Selection (Pre-Book, Get Fare, Search Bar)
         View.OnClickListener busSelectionListener = v -> navigateToBusSelection();
         preBookButton.setOnClickListener(busSelectionListener);
-        getFareButton.setOnClickListener(busSelectionListener);
-        searchButton.setOnClickListener(busSelectionListener);
 
+        searchButton.setOnClickListener(busSelectionListener);
+        lastticket.setOnClickListener(v -> navigateToTicketFragment());
         // Navigate to Past Tickets
         ticketButton.setOnClickListener(v -> navigateToPastTickets());
     }
@@ -67,10 +69,12 @@ public class MainFragment extends Fragment {
     private void startQRScanner() {
         IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
-        integrator.setPrompt("Scan a Bus QR Code");
+        integrator.setPrompt("Scan the QR Code on the bus");
         integrator.setCameraId(0);
         integrator.setBeepEnabled(true);
-        integrator.setBarcodeImageEnabled(false);
+        integrator.setBarcodeImageEnabled(true);
+        integrator.setOrientationLocked(false); // Allow auto-rotate
+        integrator.setCaptureActivity(CustomScannerActivity.class); // Use custom UI
         integrator.initiateScan();
     }
 
@@ -115,7 +119,15 @@ public class MainFragment extends Fragment {
         transaction.addToBackStack(null);
         transaction.commit();
     }
+    private void navigateToTicketFragment() {
 
+        TicketFragment ticketFragment = new TicketFragment();
+        FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+        transaction.replace(R.id.fragment_container, ticketFragment);
+        transaction.addToBackStack(null);
+        transaction.commitAllowingStateLoss(); // ✅ Ensures it commits even if the state is lost
+
+    }
     private void navigateToPastTickets() {
         FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
         transaction.replace(R.id.fragment_container, new PastTicketsFragment());

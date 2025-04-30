@@ -73,7 +73,7 @@
         app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         android:layout_marginTop="16dp"
-        tools:ignore="UnknownId"
+        tools:ignore="MissingConstraints,UnknownId"
         tools:layout_editor_absoluteY="339dp">
 
     </LinearLayout>
@@ -93,13 +93,13 @@
     </LinearLayout>
 
     <Button
-        android:id="@+id/getFareButton"
+        android:id="@+id/LastTicket"
         android:layout_width="299dp"
         android:layout_height="52dp"
         android:layout_marginTop="476dp"
         android:background="@drawable/rounded_white_bg"
         android:elevation="8dp"
-        android:text="GET FARE INFO"
+        android:text="last Ticket"
         android:textAllCaps="false"
         android:textColor="@color/black"
         android:textSize="16sp"
@@ -118,7 +118,7 @@
         android:gravity="center"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/getFareButton"
+        app:layout_constraintTop_toBottomOf="@+id/LastTicket"
         android:layout_marginTop="16dp">
 
     </LinearLayout>

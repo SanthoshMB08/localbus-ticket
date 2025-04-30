@@ -20,6 +20,7 @@ activity = { group = "androidx.activity", name = "activity", version.ref = "acti
 constraintlayout = { group = "androidx.constraintlayout", name = "constraintlayout", version.ref = "constraintlayout" }
 core = { group = "androidx.core", name = "core", version.ref = "core" }
 zxing='com.google.zxing:core:3.4.1'
+
 zxing-android-embedded='com.journeyapps:zxing-android-embedded:4.3.0'
 volley='com.android.volley:volley:1.2.1'
 navigation-fragment='androidx.navigation:navigation-fragment:2.8.8'
