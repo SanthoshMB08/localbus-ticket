@@ -8,6 +8,21 @@ CORS(app)
 
 def connect_db():
     return sqlite3.connect("busdata.db")
+def cal_fare(bus_id, start, end):
+    with connect_db() as conn:
+        cursor = conn.cursor()
+        cursor.execute("SELECT stops FROM buses WHERE bus_id=?", (bus_id,))
+        bus = cursor.fetchone()
+    stops=bus[0].split(',')
+    count=abs((stops.index(start)+1)-(stops.index(end)+1))
+    if count <= 2 :
+        fare = 6
+        return fare
+    else:
+        fare = 6 + ((count - 2) * 6)
+        return fare
+        # Calculate fare
+
 
 @app.route("/", methods=["GET"])
 def home():
@@ -44,11 +59,11 @@ def get_buses():
     result = []
     for bus in buses:
         bus_id, vehicle_number, route, start_index, end_index = bus
-        stop_count = route.count(",") if start_index and end_index else 0
-
-        # Calculate fare
-        fare = 6 if stop_count <= 2 else 6 + ((stop_count - 2) * 6)
-
+         
+ # Adding 1 to include both origin and destination stops
+        fare=cal_fare(bus_id,origin,destination)
+        if not fare:
+            fare=6 
         result.append({
             "bus_id": bus_id,
             "vehicle_number": vehicle_number,
@@ -57,6 +72,10 @@ def get_buses():
         })
 
     return jsonify(result)
+
+       
+
+
 @app.get("/get_all_stops")
 async def get_all_stops():
     with connect_db() as conn:
