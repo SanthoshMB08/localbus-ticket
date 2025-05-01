@@ -94,7 +94,7 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
     // ✅ Secure UPI Payment via Razorpay
     private void startRazorpayPayment() {
         Checkout checkout = new Checkout();
-        checkout.setKeyID("rzp_test_TQ6M89P2LB8vMl"); // Replace with your Razorpay API Key
+        checkout.setKeyID("rzp_test_NxmcoW06IGDQ5C"); // Replace with your Razorpay API Key
 
         try {
             JSONObject options = new JSONObject();

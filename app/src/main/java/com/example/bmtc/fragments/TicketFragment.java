@@ -43,7 +43,7 @@ public class TicketFragment extends Fragment {
     public Button verfiy;
     public int fare;
     private ApiService apiService;
-    public String startStop, endStop, type, busNumber;
+    public String startStop, endStop, type, busNumber, status;
 
     public TicketFragment() {}
 
@@ -72,7 +72,7 @@ public class TicketFragment extends Fragment {
         startStop = sharedPreferences.getString("startStop", "N/A");
         endStop = sharedPreferences.getString("endStop", "N/A");
         String timestamp = sharedPreferences.getString("Time", "N/A");
-        String status = sharedPreferences.getString("Status", "N/A");
+         status = sharedPreferences.getString("Status", "N/A");
         fare = sharedPreferences.getInt("fare", 0);
 
         if (busNumber.equals("N/A")) {
@@ -143,6 +143,8 @@ public class TicketFragment extends Fragment {
             editor1.apply();
             String ticketDetails = getString(R.string.ticket_details_format, busNumber, vehicalnumber, startStop, endStop, fare,  dateTime,"Verified");
             ticketDetailsText.setText(ticketDetails);
+            verfiy.setVisibility(View.INVISIBLE);
+            status="Verified";
 
         } else {
             new AlertDialog.Builder(requireContext())
@@ -152,7 +154,13 @@ public class TicketFragment extends Fragment {
                     .show();
         }
     }
-
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        // Your custom function
+        if(status.equals("Verified")){
+        clearTicket();}
+    }
     private void saveTicketToPrefsFromTicketData() {
         if ("pre_book".equals(type)) return;
 
@@ -193,26 +201,4 @@ public class TicketFragment extends Fragment {
         ticketDetailsText.setText(getString(R.string.no_ticket_available));
     }
 
-    // Load ticket by ID
-    public void reloadTicketById(String ticketId) {
-        SharedPreferences ticketPrefs = requireContext().getSharedPreferences("TicketPrefs", Context.MODE_PRIVATE);
-        Gson gson = new Gson();
-        String json = ticketPrefs.getString("past_tickets", null);
-        Type type = new TypeToken<ArrayList<Ticket>>() {}.getType();
-        List<Ticket> ticketList = json != null ? gson.fromJson(json, type) : new ArrayList<>();
-
-        for (Ticket ticket : ticketList) {
-            if (ticket.getTicketid().equals(ticketId)) {
-                String details = getString(R.string.ticket_details_format,
-                        ticket.getBusNumber(), ticket.getVehicleNumber(),
-                        ticket.getStartStop(), ticket.getEndStop(),
-                        ticket.getFare(), ticket.getDateTime(), "verified");
-
-                ticketDetailsText.setText(details);
-                return;
-            }
-        }
-
-        Toast.makeText(requireContext(), "Ticket not found!", Toast.LENGTH_SHORT).show();
-    }
 }
