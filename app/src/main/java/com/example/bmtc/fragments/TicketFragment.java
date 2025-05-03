@@ -12,6 +12,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -60,6 +61,22 @@ public class TicketFragment extends Fragment {
         saveTicketToPrefsFromTicketData();
 
         clearTicketButton.setOnClickListener(v -> clearTicket());
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        // Optional: Clear any data or perform cleanup here
+                        //if(status.equals("Verified")){
+                            //clearTicket();}
+                        // Replace with MainFragment
+                        requireActivity().getSupportFragmentManager()
+                                .beginTransaction()
+                                .replace(R.id.fragment_container, new MainFragment())
+                                .commit();
+                    }
+                }
+        );
 
         return view;
     }
@@ -81,7 +98,7 @@ public class TicketFragment extends Fragment {
             String ticketDetails = getString(R.string.ticket_details_format, busNumber, vehicleNumber, startStop, endStop, fare, timestamp, status);
             ticketDetailsText.setText(ticketDetails);
 
-            if ("pre_book".equals(type)) {
+            if ( !status.equals("verified")) {
                 verfiy.setVisibility(View.VISIBLE);
                 verfiy.setOnClickListener(v -> startQRScanner());
             }
@@ -125,7 +142,7 @@ public class TicketFragment extends Fragment {
             editor.putString("Status", "verified");
             String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
             editor.putString("Time", dateTime);
-
+            editor.apply();
             SharedPreferences ticketPrefs = requireContext().getSharedPreferences("TicketPrefs", Context.MODE_PRIVATE);
             Gson gson = new Gson();
             String json = ticketPrefs.getString("past_tickets", null);
@@ -144,7 +161,7 @@ public class TicketFragment extends Fragment {
             String ticketDetails = getString(R.string.ticket_details_format, busNumber, vehicalnumber, startStop, endStop, fare,  dateTime,"Verified");
             ticketDetailsText.setText(ticketDetails);
             verfiy.setVisibility(View.INVISIBLE);
-            status="Verified";
+            status="verified";
 
         } else {
             new AlertDialog.Builder(requireContext())
@@ -154,13 +171,7 @@ public class TicketFragment extends Fragment {
                     .show();
         }
     }
-    @Override
-    public void onDestroyView() {
-        super.onDestroyView();
-        // Your custom function
-        if(status.equals("Verified")){
-        clearTicket();}
-    }
+
     private void saveTicketToPrefsFromTicketData() {
         if ("pre_book".equals(type)) return;
 

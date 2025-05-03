@@ -12,6 +12,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -107,6 +108,19 @@ public class BusDetailsFragment extends Fragment {
             transaction.commit();
 
         });
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        // ✅ This pops the current fragment
+                        requireActivity().getSupportFragmentManager().popBackStack();
+
+                        // 🔄 Optional: clear any data if needed here
+                    }
+                }
+        );
+
     }
 
         private void fetchBusStops(String busId) {

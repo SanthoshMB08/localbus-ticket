@@ -66,7 +66,7 @@ public class MainFragment extends Fragment {
         ticketButton.setOnClickListener(v -> navigateToPastTickets());
     }
 
-    private void startQRScanner() {
+    public void startQRScanner() {
         IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
         integrator.setPrompt("Scan the QR Code on the bus");
@@ -95,7 +95,7 @@ public class MainFragment extends Fragment {
         }
     }
 
-    private void navigateToBusDetails(String busId, String vehicleNumber) {
+    public void navigateToBusDetails(String busId, String vehicleNumber) {
         if (!busId.isEmpty() && !vehicleNumber.isEmpty()) {
             Bundle bundle = new Bundle();
             bundle.putString("bus_id", busId);

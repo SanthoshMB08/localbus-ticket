@@ -11,6 +11,7 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -71,6 +72,8 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
                 break;
             }
             }
+
+
         }
 
         // Razorpay Payment Button Click
@@ -79,6 +82,18 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
             startRazorpayPayment();           // ✅ Then start the payment process
         });
 
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        // ✅ This pops the current fragment
+                        requireActivity().getSupportFragmentManager().popBackStack();
+
+                        // 🔄 Optional: clear any data if needed here
+                    }
+                }
+        );
 
         return view;
     }
@@ -162,7 +177,7 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
         editor.putString("vehicleNumber", vehicleNumber);
         editor.putString("startStop", startStop);
         editor.putString("endStop", endStop);
-        editor.putString("Status","verfied");
+        editor.putString("Status","verified");
                 String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
                 editor.putString("Time",dateTime);
         editor.putInt("fare", Integer.parseInt(amount) / 100); // Convert paise to ₹
@@ -177,7 +192,7 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
             editor.putString("vehicleNumber", "-None-");
             editor.putString("startStop", startStop);
             editor.putString("endStop", endStop);
-            editor.putString("Status","unverfied");
+            editor.putString("Status","unverified");
             editor.putInt("fare", Integer.parseInt(amount) / 100); // Convert paise to ₹
             String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
             editor.putString("Time",dateTime);

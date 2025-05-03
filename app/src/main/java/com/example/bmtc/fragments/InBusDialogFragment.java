@@ -16,6 +16,7 @@ import androidx.fragment.app.DialogFragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.bmtc.R;
+import com.example.bmtc.fragments.MainFragment;
 import com.example.bmtc.models.CustomScannerActivity;
 import com.google.zxing.integration.android.IntentIntegrator;
 import com.google.zxing.integration.android.IntentResult;
@@ -25,7 +26,7 @@ public class InBusDialogFragment extends DialogFragment {
     private Button  proceedButton;
     private EditText busIdInput, vehicleNumberInput;
     private ImageButton backButton,scanQRButton;
-
+    public MainFragment main=new MainFragment();
     public InBusDialogFragment() {
         // Required empty public constructor
     }
@@ -58,7 +59,7 @@ public class InBusDialogFragment extends DialogFragment {
         backButton.setOnClickListener(v -> dismiss());
 
         // QR Scanner
-        scanQRButton.setOnClickListener(v -> startQRScanner());
+        scanQRButton.setOnClickListener(v ->startQRScanner());
 
         // Proceed Button: Pass data to BusDetailsFragment
         proceedButton.setOnClickListener(v -> {
@@ -86,7 +87,7 @@ public class InBusDialogFragment extends DialogFragment {
     }
 
     // Start QR Code Scanner
-    private void startQRScanner() {
+    public void startQRScanner() {
         IntentIntegrator integrator = IntentIntegrator.forSupportFragment(this);
         integrator.setDesiredBarcodeFormats(IntentIntegrator.QR_CODE);
         integrator.setPrompt("Scan the QR Code on the bus");
@@ -98,18 +99,15 @@ public class InBusDialogFragment extends DialogFragment {
         integrator.initiateScan();
     }
 
-    // Handle QR Scan Result
     @Override
     public void onActivityResult(int requestCode, int resultCode, @Nullable android.content.Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         IntentResult result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data);
 
         if (result != null && result.getContents() != null) {
-            String scannedData = result.getContents();
-            String[] parts = scannedData.split(",");
+            String[] parts = result.getContents().split(",");
             if (parts.length == 2) {
-                busIdInput.setText(parts[0]);
-                vehicleNumberInput.setText(parts[1]);
+                navigateToBusDetails(parts[0], parts[1]); // Auto-navigate after scanning
             } else {
                 Toast.makeText(getActivity(), "Invalid QR Code", Toast.LENGTH_SHORT).show();
             }
@@ -117,6 +115,26 @@ public class InBusDialogFragment extends DialogFragment {
             Toast.makeText(getActivity(), "Scan Cancelled", Toast.LENGTH_SHORT).show();
         }
     }
+
+    public void navigateToBusDetails(String busId, String vehicleNumber) {
+        if (!busId.isEmpty() && !vehicleNumber.isEmpty()) {
+            Bundle bundle = new Bundle();
+            bundle.putString("bus_id", busId);
+            bundle.putString("vehicle_number", vehicleNumber);
+
+            BusDetailsFragment busDetailsFragment = new BusDetailsFragment();
+            busDetailsFragment.setArguments(bundle);
+
+            FragmentTransaction transaction = requireActivity().getSupportFragmentManager().beginTransaction();
+            transaction.replace(R.id.fragment_container, busDetailsFragment);
+            transaction.addToBackStack(null);
+            transaction.commit();
+            dismiss();
+        } else {
+            Toast.makeText(getActivity(), "Please enter valid Bus ID and Vehicle Number", Toast.LENGTH_SHORT).show();
+        }
+    }
+
 
     @Override
     public void onDismiss(@NonNull DialogInterface dialog) {

@@ -15,6 +15,7 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import androidx.activity.OnBackPressedCallback;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
@@ -76,6 +77,20 @@ public class BusSelectionFragment extends Fragment {
         // Back Button Click
         backButton.setOnClickListener(v -> requireActivity().getSupportFragmentManager().popBackStack());
         fetchAllStops();
+        requireActivity().getOnBackPressedDispatcher().addCallback(
+                getViewLifecycleOwner(),
+                new OnBackPressedCallback(true) {
+                    @Override
+                    public void handleOnBackPressed() {
+                        // ✅ This pops the current fragment
+                        requireActivity().getSupportFragmentManager().popBackStack();
+
+                        // 🔄 Optional: clear any data if needed here
+                    }
+                }
+        );
+
+
     }
 
 
