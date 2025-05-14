@@ -19,7 +19,7 @@
         android:layout_height="43dp"
         android:layout_marginTop="40dp"
         android:background="@drawable/rounded_white_bg"
-        android:elevation="4dp"
+        android:elevation="6dp"
         android:gravity="center_vertical"
         android:orientation="horizontal"
         android:padding="8dp"
@@ -127,7 +127,7 @@
         android:id="@+id/scanQRButton"
         android:layout_width="104dp"
         android:layout_height="101dp"
-        android:layout_marginTop="552dp"
+        android:layout_marginTop="544dp"
         android:background="@drawable/shadow_bg"
         android:elevation="10dp"
         android:padding="5dp"
@@ -135,7 +135,7 @@
         android:src="@drawable/scannerbg"
         android:translationZ="5dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.534"
+        app:layout_constraintHorizontal_bias="0.494"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -143,15 +143,15 @@
         android:id="@+id/preBookButton"
         android:layout_width="102dp"
         android:layout_height="102dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="296dp"
         android:layout_weight="1"
         android:background="@drawable/shadow_bg"
-        android:elevation="8dp"
+        android:elevation="2dp"
         android:scaleType="fitCenter"
         android:src="@drawable/booking"
-        android:translationZ="10dp"
+        android:translationZ="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.537"
+        app:layout_constraintHorizontal_bias="0.498"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -159,7 +159,7 @@
     <TextView
         android:layout_width="98dp"
         android:layout_height="35dp"
-        android:layout_marginTop="660dp"
+        android:layout_marginTop="652dp"
         android:background="@drawable/blue_bg"
         android:gravity="center"
         android:padding="4dp"
@@ -168,7 +168,7 @@
         android:textSize="16sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.543"
+        app:layout_constraintHorizontal_bias="0.498"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -177,15 +177,15 @@
         android:id="@+id/ticket_button"
         android:layout_width="102dp"
         android:layout_height="102dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="296dp"
         android:layout_weight="1"
         android:background="@drawable/shadow_bg"
-        android:elevation="10dp"
+        android:elevation="2dp"
         android:scaleType="fitCenter"
         android:src="@drawable/ticket"
-        android:translationZ="5dp"
+        android:translationZ="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.96"
+        app:layout_constraintHorizontal_bias="1.0"
 
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -193,39 +193,38 @@
     <TextView
         android:layout_width="81dp"
         android:layout_height="47dp"
-        android:layout_marginTop="404dp"
+        android:layout_marginTop="396dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="PRE BOOK"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.543"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="111dp"
         android:layout_height="31dp"
-        android:layout_marginTop="412dp"
+        android:layout_marginTop="404dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="TICKETS"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.958"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TextView
         android:layout_width="98dp"
         android:layout_height="41dp"
-        android:layout_marginTop="404dp"
+        android:layout_marginTop="396dp"
         android:layout_weight="1"
         android:gravity="center"
         android:text="IN BUS"
         android:textSize="16sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.096"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -234,16 +233,16 @@
 
         android:layout_width="102dp"
         android:layout_height="102dp"
-        android:layout_marginTop="292dp"
+        android:layout_marginTop="296dp"
         android:layout_weight="1"
         android:background="@drawable/shadow_bg"
         android:contentDescription="In Bus Button"
-        android:elevation="8dp"
+        android:elevation="2dp"
         android:scaleType="fitCenter"
         android:src="@drawable/bus"
-        android:translationZ="5dp"
+        android:translationZ="2dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.083"
+        app:layout_constraintHorizontal_bias="0.0"
 
 
         app:layout_constraintStart_toStartOf="parent"

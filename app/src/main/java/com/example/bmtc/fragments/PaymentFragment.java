@@ -78,7 +78,8 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
 
         // Razorpay Payment Button Click
         razorpayButton.setOnClickListener(v -> {
-            saveTicketToLocalStorage(); // ✅ First, save ticket details
+            saveTicketToLocalStorage();
+             // ✅ First, save ticket details
             startRazorpayPayment();           // ✅ Then start the payment process
         });
 
@@ -139,7 +140,7 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
     // ✅ Handling Razorpay Payment Success
     @Override
     public void onPaymentSuccess(String razorpayPaymentID) {
-        saveTicketToLocalStorage();
+
         Toast.makeText(getContext(), "✅ Payment Successful! ID: " + razorpayPaymentID, Toast.LENGTH_LONG).show();
 
         // ✅ Save Ticket Data Locally
@@ -159,7 +160,7 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
         Toast.makeText(getContext(), "❌ Payment Failed! " + response, Toast.LENGTH_LONG).show();
     }
 
-    // ✅ Save Ticket Data (Without Time & Date)
+
     public void saveTicketToLocalStorage() {
         Log.d("PaymentFragment", "🔹 saveTicketToLocalStorage() called");
 
@@ -168,10 +169,11 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
             return;
         }
 
-        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("TicketData", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getActivity().getSharedPreferences("info", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
         switch (type){
             case "in_bus":{
+                editor.putBoolean("pay",false);
                 editor.putString("type",type);
         editor.putString("busNumber", busNumber);
         editor.putString("vehicleNumber", vehicleNumber);
@@ -187,6 +189,7 @@ public class PaymentFragment extends Fragment implements PaymentResultListener {
 
             break;}
         case "pre_book":{
+            editor.putBoolean("pay",false);
             editor.putString("type",type);
             editor.putString("busNumber", busNumber);
             editor.putString("vehicleNumber", "-None-");

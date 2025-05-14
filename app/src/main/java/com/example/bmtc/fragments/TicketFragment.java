@@ -56,6 +56,12 @@ public class TicketFragment extends Fragment {
         ticketDetailsText = view.findViewById(R.id.ticketDetailsText);
         Button clearTicketButton = view.findViewById(R.id.clearTicketButton);
         verfiy = view.findViewById(R.id.verifyButton);
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("info", Context.MODE_PRIVATE);
+        boolean var= sharedPreferences.getBoolean("pay", false);
+        if(var){
+            savedata();
+
+        }
 
         loadTicket();
         saveTicketToPrefsFromTicketData();
@@ -79,6 +85,50 @@ public class TicketFragment extends Fragment {
         );
 
         return view;
+    }
+    public void savedata(){
+        SharedPreferences sharedPreferences = requireActivity().getSharedPreferences("info", Context.MODE_PRIVATE);
+        String type = sharedPreferences.getString("type", "N/A");
+        String busNumber = sharedPreferences.getString("busNumber", "N/A");
+        String vehicleNumber = sharedPreferences.getString("vehicleNumber", "N/A");
+       String  startStop = sharedPreferences.getString("startStop", "N/A");
+        String endStop = sharedPreferences.getString("endStop", "N/A");
+        String timestamp = sharedPreferences.getString("Time", "N/A");
+        String status = sharedPreferences.getString("Status", "N/A");
+        int fare = sharedPreferences.getInt("fare", 0);
+
+        SharedPreferences sharedPrefer = getActivity().getSharedPreferences("TicketData", Context.MODE_PRIVATE);
+        SharedPreferences.Editor editor = sharedPrefer.edit();
+        switch (type){
+            case "in_bus":{
+                editor.putString("type",type);
+                editor.putString("busNumber", busNumber);
+                editor.putString("vehicleNumber", vehicleNumber);
+                editor.putString("startStop", startStop);
+                editor.putString("endStop", endStop);
+                editor.putString("Status","verified");
+                String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+                editor.putString("Time",dateTime);
+                editor.putInt("fare", fare ); // Convert paise to ₹
+                editor.apply();
+
+                Log.d("PaymentFragment", "✅ Ticket Data Saved: Bus " + busNumber + ", Fare: ₹" + (fare / 100));
+
+                break;}
+            case "pre_book":{
+                editor.putString("type",type);
+                editor.putString("busNumber", busNumber);
+                editor.putString("vehicleNumber", "-None-");
+                editor.putString("startStop", startStop);
+                editor.putString("endStop", endStop);
+                editor.putString("Status","unverified");
+                editor.putInt("fare", fare); // Convert paise to ₹
+                String dateTime = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss", Locale.getDefault()).format(new Date());
+                editor.putString("Time",dateTime);
+                editor.apply();
+                break;
+            }}
+
     }
 
     private void loadTicket() {

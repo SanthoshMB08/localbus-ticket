@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
     private void saveTicketData(String transactionID) {
         Log.d("MainActivity", "🔹 saveTicketData() called with Transaction ID: " + transactionID);
 
-        SharedPreferences sharedPreferences = getSharedPreferences("TicketData", Context.MODE_PRIVATE);
+        SharedPreferences sharedPreferences = getSharedPreferences("info", Context.MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
 
         // Retrieve existing details
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity implements PaymentResultList
         int fare = sharedPreferences.getInt("fare", 0);
 
         // Add new details (Transaction ID, Date, Time)
+        editor.putBoolean("pay",true);
         editor.putString("transactionID", transactionID);
         editor.putString("timestamp", new SimpleDateFormat("yyyy-MM-dd HH:mm", Locale.getDefault()).format(new Date()));
 
